@@ -21,11 +21,12 @@ This project is intended to assist a developer in learning what is needed to cre
 
 # Creating your own custom filter bundle
 
-## Create a directories to hold the new filter
+## Create the directories to hold the new filter
  - `mkdir -p ./hello-world-new/src/main/new/org/openrepose/filters/custom/helloworldnew/`
  - `mkdir -p ./hello-world-new/src/test/new/org/openrepose/filters/custom/helloworldnew/`
 
 ## Create the files for the new filter.
+ - `touch ./hello-world-new/pom.xml`
  - `touch ./hello-world-new/src/main/new/org/openrepose/filters/custom/helloworldnew/HelloWorldNewFilter.new`
  - `touch ./hello-world-new/src/test/new/org/openrepose/filters/custom/helloworldnew/HelloWorldNewFilterTest.new`
 
