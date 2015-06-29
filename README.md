@@ -25,11 +25,11 @@ This project is intended to assist a developer in learning what is needed to cre
  - `mkdir -p ./hello-world-new/src/main/new/org/openrepose/filters/custom/helloworldnew/`
  - `mkdir -p ./hello-world-new/src/test/new/org/openrepose/filters/custom/helloworldnew/`
 
-# Create the files for the new filter.
+## Create the files for the new filter.
  - `touch ./hello-world-new/src/main/new/org/openrepose/filters/custom/helloworldnew/HelloWorldNewFilter.new`
  - `touch ./hello-world-new/src/test/new/org/openrepose/filters/custom/helloworldnew/HelloWorldNewFilterTest.new`
 
-# Add the new module to the top level POM.
+## Add the new module to the top level POM.
  - `vi ./pom.xml`
 
 ```
@@ -44,7 +44,7 @@ This project is intended to assist a developer in learning what is needed to cre
     ...
 ```
  
-# Add the new module to the custom bundle POM dependency.
+## Add the new module to the custom bundle POM dependency.
  - `vi ./custom-bundle/pom.xml`
 
 ```
@@ -60,7 +60,7 @@ This project is intended to assist a developer in learning what is needed to cre
     ...
 ```
 
-# Add the new filter info to the bundle.
+## Add the new filter info to the bundle.
  - `vi ./custom-bundle/src/main/application/WEB-INF/web-fragment.xml`
 
 ```
