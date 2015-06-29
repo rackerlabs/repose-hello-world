@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified"
+           targetNamespace="http://docs.example.com/repose/hello-world-scala/v1.0"
+           xmlns:hello-world-scala="http://docs.example.com/repose/hello-world-scala/v1.0"
+           xmlns:html="http://www.w3.org/1999/xhtml"
+           xmlns:xerces="http://xerces.apache.org"
+           xmlns:saxon="http://saxon.sf.net/"
+           xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- This matches the root element tag in hello-world-scala.cfg.xml created in step 14. -->
+    <xs:element name="hello-world-scala" type="hello-world-scala:HelloWorldScalaConfig"/>
+    <xs:complexType name="HelloWorldScalaConfig">
+        <xs:annotation>
+            <xs:documentation>
+                <html:p>
+                    Hello World can be configured by editing the hello-world-scala.cfg.xml file.
+                    The user can specify the messages to print to the log.
+                </html:p>
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:all>
+            <!-- This matches the child tag <hello-world-scala> in hello-world-scala.cfg.xml. -->
+            <xs:element name="messages" type="hello-world-scala:MessageList" minOccurs="1" maxOccurs="1"/>
+            <!-- There must be one and only one <messages> tag in hello-world-scala.cfg.xml -->
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="MessageList">
+        <xs:annotation>
+            <xs:documentation>
+                <html:p>
+                    List of messages.
+                </html:p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <!-- This matches the child tag <messages> in hello-world-scala.cfg.xml. -->
+            <!-- There is one or more instance of a <message> tag in hello-world-scala.cfg.xml -->
+            <xs:element name="message" type="hello-world-scala:Message"
+                        minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+
+        <!-- Must match <message> tag (children of messages tag in hello-world-scala.cfg.xml). -->
+        <xs:assert vc:minVersion="1.1"
+                   test="count(distinct-values(hello-world-scala:message /@value)) = count(hello-world-scala:message /@value)"
+                   xerces:message="A message must have value unique within their containing messages list"
+                   saxon:message="A message must have value unique within their containing messages list"/>
+    </xs:complexType>
+
+    <!-- This results in the generation of
+    target/generated-sources/xjc/org/openrepose/filters/custom/helloworldscala/config/Message.java
+    with a property named value with type: String -->
+    <xs:complexType name="Message">
+        <xs:annotation>
+            <xs:documentation>
+                <html:p>
+                    The message
+                </html:p>
+            </xs:documentation>
+        </xs:annotation>
+
+        <!-- There is only one attribute of the <message> tag, and it is required. -->
+        <xs:attribute name="value" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    <html:p>
+                        This is the value that is printed to the log.
+                    </html:p>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+</xs:schema>

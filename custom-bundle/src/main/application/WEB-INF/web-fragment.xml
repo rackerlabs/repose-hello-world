@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-fragment xmlns="http://java.sun.com/xml/ns/javaee">
+    <filter>
+        <filter-name>hello-world-java</filter-name>
+        <filter-class>org.openrepose.filters.custom.helloworldjava.HelloWorldJavaFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>hello-world-scala</filter-name>
+        <filter-class>org.openrepose.filters.custom.helloworldscala.HelloWorldScalaFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>hello-world-groovy</filter-name>
+        <filter-class>org.openrepose.filters.custom.helloworldgroovy.HelloWorldGroovyFilter</filter-class>
+    </filter>
+</web-fragment>
