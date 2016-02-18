@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hello-world-kotlin xmlns='http://docs.example.com/repose/hello-world-kotlin/v1.0'>
+    <messages>
+        <!-- This is the message you want to output to the log. -->
+        <message value="My Hello World in Kotlin!!!" />
+        <message value="Another message in the Kotlin filter." />
+    </messages>
+</hello-world-kotlin>

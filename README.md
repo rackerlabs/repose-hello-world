@@ -14,6 +14,7 @@ This project is intended to assist a developer in learning what is needed to cre
  - `scp ./hello-world-groovy/src/main/resources/META-INF/schema/examples/hello-world-groovy.cfg.xml root@<SERVER_HOSTING_REPOSE>:/etc/repose/`
  - `scp ./hello-world-java/src/main/resources/META-INF/schema/examples/hello-world-java.cfg.xml     root@<SERVER_HOSTING_REPOSE>:/etc/repose/`
  - `scp ./hello-world-scala/src/main/resources/META-INF/schema/examples/hello-world-scala.cfg.xml   root@<SERVER_HOSTING_REPOSE>:/etc/repose/`
+ - `scp ./hello-world-kotlin/src/main/resources/META-INF/schema/examples/hello-world-kotlin.cfg.xml   root@<SERVER_HOSTING_REPOSE>:/etc/repose/`
 
 ## Add one or more of the hello-world filters to the system-model.cfg.xml
  - `ssh root@<SERVER_HOSTING_REPOSE>`
@@ -40,6 +41,7 @@ This project is intended to assist a developer in learning what is needed to cre
         <module>hello-world-java</module>
         <module>hello-world-scala</module>
         <module>hello-world-groovy</module>
+        <module>hello-world-kotlin</module>
         <module>hello-world-new</module>
     </modules>
     ...
