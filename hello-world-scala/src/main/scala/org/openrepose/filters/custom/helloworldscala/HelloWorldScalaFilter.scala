@@ -33,6 +33,7 @@ import org.openrepose.core.services.config.ConfigurationService
 
 import scala.collection.JavaConversions._
 
+// @Named can be omitted if class doesn't have a constructor with arguments
 @Named
 class HelloWorldScalaFilter @Inject()(configurationService: ConfigurationService)
 

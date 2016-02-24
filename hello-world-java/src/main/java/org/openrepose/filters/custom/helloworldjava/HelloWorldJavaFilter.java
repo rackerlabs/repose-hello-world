@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URL;
 
-
+// @Named can be omitted if class doesn't have a constructor with arguments
 @Named
 public class HelloWorldJavaFilter implements Filter, UpdateListener<HelloWorldJavaConfig> {
     private static final Logger LOG = LoggerFactory.getLogger(HelloWorldJavaFilter.class);

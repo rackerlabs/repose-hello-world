@@ -34,6 +34,7 @@ import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+// @Named can be omitted if class doesn't have a constructor with arguments
 @Named
 public class HelloWorldGroovyFilter implements Filter, UpdateListener<HelloWorldGroovyConfig> {
     private static final LOG = LoggerFactory.getLogger(HelloWorldGroovyFilter.class)
