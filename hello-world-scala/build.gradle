@@ -1,3 +1,5 @@
+apply plugin: 'scala'
+
 dependencies {
     compile "org.scala-lang:scala-library"
     compile "com.typesafe.scala-logging:scala-logging-slf4j_2.11"

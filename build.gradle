@@ -1,22 +1,15 @@
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
         maven {
             url "https://maven.research.rackspacecloud.com/content/groups/aggregate/"
         }
     }
 
     dependencies {
-        classpath 'org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:1.2.0'
-        classpath 'com.netflix.nebula:nebula-dependency-recommender:3.3.0'
-        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
-        classpath 'org.openrepose:gradle-jaxb-plugin:2.2.1'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.1'
+        classpath 'com.netflix.nebula:nebula-dependency-recommender:3.3.0'      // version numbers
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3' // provided
+        classpath 'org.openrepose:gradle-jaxb-plugin:2.2.1'                     // jaxb
     }
 }
 
@@ -36,12 +29,7 @@ allprojects {
 }
 
 subprojects {
-
     apply plugin: 'java'
-    apply plugin: 'groovy'
-    apply plugin: 'scala'
-    apply plugin: 'kotlin'
-    apply plugin: 'org.unbroken-dome.test-sets'
     apply plugin: 'nebula.provided-base'
     apply plugin: 'org.openrepose.gradle.plugins.jaxb'
 
@@ -68,9 +56,8 @@ subprojects {
     targetCompatibility = 1.8
 
     task transformXSDs() {
-        description "Runs xml through an xslt transfurm"
+        description "Runs xml through an xslt transform"
         ext.outputDir = "$buildDir/src/generated-xsd"
-        //todo: make this work with multiples so I can make these paths better
         def xsltFile = "$rootDir/remove-1.1-elements.xsl"
         def schemaBaseDir = "$projectDir/src/main/resources/META-INF/schema"
 
@@ -158,14 +145,6 @@ subprojects {
         compile.exclude group: 'commons-logging', module: 'commons-logging'
 
         testCompile.exclude group: 'xerces', module: 'xerces'
-    }
-
-    //todo: remove this once gradle fixes the bug with zinc compiler inference
-    //https://discuss.gradle.org/t/default-scala-compilation-doesnt-work-in-gradle-2-12/15328
-    tasks.withType(ScalaCompile) {
-        scalaCompileOptions.with {
-            useAnt = true
-        }
     }
 
     jar {
