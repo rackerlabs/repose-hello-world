@@ -20,8 +20,9 @@
 package org.openrepose.filters.custom.helloworldkotlin
 
 import org.openrepose.commons.config.manager.UpdateListener
-import org.openrepose.commons.utils.servlet.http.MutableHttpServletRequest
-import org.openrepose.commons.utils.servlet.http.MutableHttpServletResponse
+import org.openrepose.commons.utils.servlet.http.HttpServletRequestWrapper
+import org.openrepose.commons.utils.servlet.http.HttpServletResponseWrapper
+import org.openrepose.commons.utils.servlet.http.ResponseMode
 import org.openrepose.core.filter.FilterConfigHelper
 import org.openrepose.core.services.config.ConfigurationService
 import org.openrepose.filters.custom.helloworldkotlin.config.HelloWorldKotlinConfig
@@ -60,14 +61,15 @@ class HelloWorldKotlinFilter @Inject constructor(configurationService: Configura
             LOG.error("Hello World Kotlin filter has not yet initialized...")
             (response as HttpServletResponse).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
         } else {
-            val mutableHttpRequest = MutableHttpServletRequest.wrap(request as HttpServletRequest)
-            val mutableHttpResponse = MutableHttpServletResponse.wrap(mutableHttpRequest, response as HttpServletResponse)
+            val wrappedHttpRequest = HttpServletRequestWrapper(request as HttpServletRequest)
+            val wrappedHttpResponse = HttpServletResponseWrapper(
+                    response as HttpServletResponse, ResponseMode.PASSTHROUGH, ResponseMode.PASSTHROUGH)
 
             LOG.trace("Hello World Kotlin filter processing request...")
             messages.forEach { LOG.info("Request message: $it") }
 
             LOG.trace("Hello World Kotlin filter passing on down the Filter Chain...")
-            filterChain.doFilter(mutableHttpRequest, mutableHttpResponse)
+            filterChain.doFilter(wrappedHttpRequest, wrappedHttpResponse)
 
             LOG.trace("Hello World Kotlin filter processing response...")
             messages.forEach { LOG.info("Response message: $it") }

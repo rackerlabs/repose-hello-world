@@ -20,8 +20,9 @@
 package org.openrepose.filters.custom.helloworldgroovy
 
 import org.openrepose.commons.config.manager.UpdateListener
-import org.openrepose.commons.utils.servlet.http.MutableHttpServletRequest
-import org.openrepose.commons.utils.servlet.http.MutableHttpServletResponse
+import org.openrepose.commons.utils.servlet.http.HttpServletRequestWrapper
+import org.openrepose.commons.utils.servlet.http.HttpServletResponseWrapper
+import org.openrepose.commons.utils.servlet.http.ResponseMode
 import org.openrepose.core.filter.FilterConfigHelper
 import org.openrepose.core.services.config.ConfigurationService
 import org.openrepose.filters.custom.helloworldgroovy.config.HelloWorldGroovyConfig
@@ -76,8 +77,9 @@ public class HelloWorldGroovyFilter implements Filter, UpdateListener<HelloWorld
             LOG.error("Hello World Groovy filter has not yet initialized...")
             ((HttpServletResponse) servletResponse).sendError(500)
         } else {
-            def mutableHttpRequest = MutableHttpServletRequest.wrap((HttpServletRequest) servletRequest)
-            def mutableHttpResponse = MutableHttpServletResponse.wrap(mutableHttpRequest, (HttpServletResponse) servletResponse)
+            def wrappedHttpRequest = new HttpServletRequestWrapper(servletRequest as HttpServletRequest)
+            def wrappedHttpResponse = new HttpServletResponseWrapper(
+                    servletResponse as HttpServletResponse, ResponseMode.PASSTHROUGH, ResponseMode.PASSTHROUGH)
 
             // This is where this filter's custom logic is invoked.
             // For the purposes of this example, the configured messages are logged
@@ -89,7 +91,7 @@ public class HelloWorldGroovyFilter implements Filter, UpdateListener<HelloWorld
             }
 
             LOG.trace("Hello World Groovy filter passing on down the Filter Chain...")
-            filterChain.doFilter(mutableHttpRequest, mutableHttpResponse)
+            filterChain.doFilter(wrappedHttpRequest, wrappedHttpResponse)
 
             LOG.trace("Hello World Groovy filter processing response...")
             for (Message message : messageList.getMessage()) {

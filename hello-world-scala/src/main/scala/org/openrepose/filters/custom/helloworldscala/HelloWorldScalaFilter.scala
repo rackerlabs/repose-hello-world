@@ -27,7 +27,7 @@ import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import org.openrepose.filters.custom.helloworldscala.config.HelloWorldScalaConfig
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import org.openrepose.commons.config.manager.UpdateListener
-import org.openrepose.commons.utils.servlet.http.{MutableHttpServletRequest, MutableHttpServletResponse}
+import org.openrepose.commons.utils.servlet.http.{HttpServletRequestWrapper, HttpServletResponseWrapper, ResponseMode}
 import org.openrepose.core.filter.FilterConfigHelper
 import org.openrepose.core.services.config.ConfigurationService
 
@@ -70,8 +70,9 @@ class HelloWorldScalaFilter @Inject()(configurationService: ConfigurationService
       logger.error("Hello World Scala filter has not yet initialized...")
       servletResponse.asInstanceOf[HttpServletResponse].sendError(500)
     } else {
-      val mutableHttpRequest = MutableHttpServletRequest.wrap(servletRequest.asInstanceOf[HttpServletRequest])
-      val mutableHttpResponse = MutableHttpServletResponse.wrap(mutableHttpRequest, servletResponse.asInstanceOf[HttpServletResponse])
+      val wrappedHttpRequest = new HttpServletRequestWrapper(servletRequest.asInstanceOf[HttpServletRequest])
+      val wrappedHttpResponse = new HttpServletResponseWrapper(
+        servletResponse.asInstanceOf[HttpServletResponse], ResponseMode.PASSTHROUGH, ResponseMode.PASSTHROUGH)
 
       // This is where this filter's custom logic is invoked.
       // For the purposes of this example, the configured messages are logged
@@ -84,7 +85,7 @@ class HelloWorldScalaFilter @Inject()(configurationService: ConfigurationService
       }
 
       logger.trace("Hello World Scala filter passing on down the Filter Chain...")
-      filterChain.doFilter(mutableHttpRequest, mutableHttpResponse)
+      filterChain.doFilter(wrappedHttpRequest, wrappedHttpResponse)
 
       logger.trace("Hello World Scala filter processing response...")
       Option(configuration.getMessages).flatMap {

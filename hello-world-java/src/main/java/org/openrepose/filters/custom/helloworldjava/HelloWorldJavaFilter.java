@@ -19,12 +19,13 @@
  */
 package org.openrepose.filters.custom.helloworldjava;
 
+import org.openrepose.commons.utils.servlet.http.HttpServletRequestWrapper;
+import org.openrepose.commons.utils.servlet.http.HttpServletResponseWrapper;
+import org.openrepose.commons.utils.servlet.http.ResponseMode;
 import org.openrepose.filters.custom.helloworldjava.config.HelloWorldJavaConfig;
 import org.openrepose.filters.custom.helloworldjava.config.Message;
 import org.openrepose.filters.custom.helloworldjava.config.MessageList;
 import org.openrepose.commons.config.manager.UpdateListener;
-import org.openrepose.commons.utils.servlet.http.MutableHttpServletRequest;
-import org.openrepose.commons.utils.servlet.http.MutableHttpServletResponse;
 import org.openrepose.core.filter.FilterConfigHelper;
 import org.openrepose.core.services.config.ConfigurationService;
 import org.slf4j.Logger;
@@ -80,8 +81,9 @@ public class HelloWorldJavaFilter implements Filter, UpdateListener<HelloWorldJa
             LOG.error("Hello World Java filter has not yet initialized...");
             ((HttpServletResponse) servletResponse).sendError(500);
         } else {
-            MutableHttpServletRequest mutableHttpRequest = MutableHttpServletRequest.wrap((HttpServletRequest) servletRequest);
-            MutableHttpServletResponse mutableHttpResponse = MutableHttpServletResponse.wrap(mutableHttpRequest, (HttpServletResponse) servletResponse);
+            HttpServletRequestWrapper wrappedHttpRequest = new HttpServletRequestWrapper((HttpServletRequest) servletRequest);
+            HttpServletResponseWrapper wrappedHttpResponse = new HttpServletResponseWrapper(
+                    (HttpServletResponse) servletResponse, ResponseMode.PASSTHROUGH, ResponseMode.PASSTHROUGH);
 
             // This is where this filter's custom logic is invoked.
             // For the purposes of this example, the configured messages are logged
@@ -93,7 +95,7 @@ public class HelloWorldJavaFilter implements Filter, UpdateListener<HelloWorldJa
             }
 
             LOG.trace("Hello World Java filter passing on down the Filter Chain...");
-            filterChain.doFilter(mutableHttpRequest, mutableHttpResponse);
+            filterChain.doFilter(wrappedHttpRequest, wrappedHttpResponse);
 
             LOG.trace("Hello World Java filter processing response...");
             for (Message message : messageList.getMessage()) {
