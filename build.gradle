@@ -22,6 +22,7 @@ allprojects {
         mavenCentral()
         maven { url "https://maven.research.rackspacecloud.com/content/groups/aggregate/" }
         maven { url "http://repo.typesafe.com/typesafe/maven-releases" }
+        mavenLocal()
     }
 }
 
@@ -36,8 +37,10 @@ subprojects {
         jaxb "javax.xml.bind:jaxb-api"
         jaxb "org.jvnet.jaxb2_commons:jaxb2-basics-ant"
 
-        provided "org.openrepose:core-lib"
-        provided "org.openrepose:core-service-api"
+        provided "javax.inject:javax.inject"
+        provided "javax.servlet:javax.servlet-api"
+        provided "javax.ws.rs:javax.ws.rs-api"
+        provided "org.openrepose:repose-core-api"
         provided "org.openrepose:utilities"
 
         compile "org.jvnet.jaxb2_commons:jaxb2-basics-runtime"
@@ -47,6 +50,8 @@ subprojects {
         testCompile "org.mockito:mockito-all"
         testCompile "org.apache.logging.log4j:log4j-core"
         testCompile group: 'org.apache.logging.log4j', name: 'log4j-core', classifier: 'tests'
+        testCompile "org.apache.logging.log4j:log4j-slf4j-impl"
+        testCompile "org.slf4j:jcl-over-slf4j"
     }
 
     sourceCompatibility = 1.8
