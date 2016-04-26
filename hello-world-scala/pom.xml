@@ -18,15 +18,23 @@
     <dependencies>
         <dependency>
             <groupId>org.openrepose</groupId>
-            <artifactId>core-lib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrepose</groupId>
-            <artifactId>core-service-api</artifactId>
+            <artifactId>repose-core-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openrepose</groupId>
             <artifactId>utilities</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jvnet.jaxb2_commons</groupId>
@@ -45,11 +53,6 @@
             <artifactId>scala-logging-slf4j_${scala.dep.version}</artifactId>
             <version>2.1.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -57,11 +60,6 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-            </plugin>
-            <!-- Groovy Compilation Support -->
-            <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
             </plugin>
             <!-- Cleans up the XSD to conform to XML 1.0 -->
             <plugin>

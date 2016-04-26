@@ -18,15 +18,23 @@
     <dependencies>
         <dependency>
             <groupId>org.openrepose</groupId>
-            <artifactId>core-lib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrepose</groupId>
-            <artifactId>core-service-api</artifactId>
+            <artifactId>repose-core-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openrepose</groupId>
             <artifactId>utilities</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jvnet.jaxb2_commons</groupId>
