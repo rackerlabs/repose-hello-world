@@ -24,7 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.license>apache20</project.license>
         <project.inceptionYear>2010</project.inceptionYear>
-        <repose.version>8.0.0.0-SNAPSHOT</repose.version>
+        <repose.version>8.0.0.0</repose.version>
         <scala.version>2.11.7</scala.version>
         <scala.dep.version>2.11</scala.dep.version>
         <groovy.version>2.4.3</groovy.version>
