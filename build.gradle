@@ -39,7 +39,6 @@ subprojects {
 
         provided "javax.inject:javax.inject"
         provided "javax.servlet:javax.servlet-api"
-        provided "javax.ws.rs:javax.ws.rs-api"
         provided "org.openrepose:repose-core-api"
         provided "org.openrepose:utilities"
 
