@@ -14,19 +14,37 @@ git clone git@github.com:rackerlabs/repose-hello-world.git
 ```
 
 ## Build the cloned project
+### Gradle
 ```
 cd repose-hello-world
 gradle clean
 gradle build
 ```
 
-## Copy the artifacts to a Repose node
+### Maven
 ```
-scp ./custom-bundle/build/libs/custom-bundle-1.0-SNAPSHOT.ear                                    root@<SERVER_HOSTING_REPOSE>:/usr/share/repose/filters/
+cd repose-hello-world
+mvn clean install
+```
+
+## Copy the artifacts to a Repose node
+### Configuration
+```
 scp ./hello-world-groovy/src/main/resources/META-INF/schema/examples/hello-world-groovy.cfg.xml  root@<SERVER_HOSTING_REPOSE>:/etc/repose/
 scp ./hello-world-java/src/main/resources/META-INF/schema/examples/hello-world-java.cfg.xml      root@<SERVER_HOSTING_REPOSE>:/etc/repose/
 scp ./hello-world-scala/src/main/resources/META-INF/schema/examples/hello-world-scala.cfg.xml    root@<SERVER_HOSTING_REPOSE>:/etc/repose/
 scp ./hello-world-kotlin/src/main/resources/META-INF/schema/examples/hello-world-kotlin.cfg.xml  root@<SERVER_HOSTING_REPOSE>:/etc/repose/
+```
+
+### EAR
+#### Gradle
+```
+scp ./custom-bundle/build/libs/custom-bundle-1.0-SNAPSHOT.ear root@<SERVER_HOSTING_REPOSE>:/usr/share/repose/filters/
+```
+
+#### Maven
+```
+scp ./custom-bundle/target/custom-bundle-1.0-SNAPSHOT.ear root@<SERVER_HOSTING_REPOSE>:/usr/share/repose/filters/
 ```
 
 ## Add one or more of the hello-world filters to the system-model.cfg.xml
@@ -60,6 +78,8 @@ touch ./hello-world-new/src/test/new/org/openrepose/filters/custom/helloworldnew
 ```
 
 ## Add the new module to the top level build
+
+### Gradle
 ```
 vi ./settings.gradle
 ```
@@ -73,8 +93,27 @@ include 'custom-bundle',
         'hello-world-scala',
         'hello-world-new'
 ```
- 
+
+### Maven
+```
+vi ./pom.xml
+```
+
+Partial file contents:
+```
+    ...
+    <modules>
+        <module>custom-bundle</module>
+        <module>hello-world-java</module>
+        <module>hello-world-scala</module>
+        <module>hello-world-groovy</module>
+        <module>hello-world-kotlin</module>
+        <module>hello-world-new</module>
+    </modules>
+    ...
+```
 ## Add the new module to the custom bundle build
+### Gradle
 ```
 vi ./custom-bundle/build.gradle
 ```
@@ -90,6 +129,25 @@ dependencies {
     earlib project(":hello-world-scala")
     earlib project(":hello-world-new")
 }
+```
+
+### Maven
+```
+vi ./custom-bundle/pom.xml
+```
+
+Partial file contents:
+```
+    ...
+    <dependencies>
+    ...
+        <dependency>
+            <groupId>org.openrepose.filters.custom</groupId>
+            <artifactId>hello-world-new</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    ...
 ```
 
 ## Add the new filter info to the bundle
