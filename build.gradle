@@ -1,0 +1,171 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://maven.research.rackspacecloud.com/content/groups/aggregate/" }
+    }
+
+    dependencies {
+        classpath 'com.netflix.nebula:nebula-dependency-recommender:3.3.0'      // version numbers
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3' // provided
+        classpath 'org.openrepose:gradle-jaxb-plugin:2.2.1'                     // jaxb
+    }
+}
+
+allprojects {
+    group = 'org.openrepose.filters.custom'
+    version = "1.0-SNAPSHOT"
+
+    apply plugin: 'idea'
+    apply plugin: 'nebula.dependency-recommender'
+
+    repositories {
+        mavenCentral()
+        maven { url "https://maven.research.rackspacecloud.com/content/groups/aggregate/" }
+        maven { url "http://repo.typesafe.com/typesafe/maven-releases" }
+        mavenLocal()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'nebula.provided-base'
+    apply plugin: 'org.openrepose.gradle.plugins.jaxb'
+
+    dependencies {
+        jaxb "com.sun.xml.bind:jaxb-xjc"
+        jaxb "com.sun.xml.bind:jaxb-impl"
+        jaxb "javax.xml.bind:jaxb-api"
+        jaxb "org.jvnet.jaxb2_commons:jaxb2-basics-ant"
+
+        provided "javax.inject:javax.inject"
+        provided "javax.servlet:javax.servlet-api"
+        provided "org.openrepose:repose-core-api"
+        provided "org.openrepose:utilities"
+
+        compile "org.jvnet.jaxb2_commons:jaxb2-basics-runtime"
+
+        testCompile "junit:junit"
+        testCompile "org.springframework:spring-test"
+        testCompile "org.mockito:mockito-all"
+        testCompile "org.apache.logging.log4j:log4j-core"
+        testCompile group: 'org.apache.logging.log4j', name: 'log4j-core', classifier: 'tests'
+        testCompile "org.apache.logging.log4j:log4j-slf4j-impl"
+        testCompile "org.slf4j:jcl-over-slf4j"
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    task transformXSDs() {
+        description "Runs xml through an xslt transform"
+        ext.outputDir = "$buildDir/src/generated-xsd"
+        def xsltFile = "$rootDir/remove-1.1-elements.xsl"
+        def schemaBaseDir = "$projectDir/src/main/resources/META-INF/schema"
+
+        //If they set a property for the jaxbXSLT file override our default
+        if (project.hasProperty('jaxbXsltFile')) {
+            xsltFile = project.jaxbXsltFile
+        }
+
+        if (project.hasProperty('jaxbSchemaBase')) {
+            schemaBaseDir = project.jaxbSchemaBase
+        }
+
+        inputs.files(
+                fileTree(dir: schemaBaseDir, includes: ["**/*.xsd", "**/*.xjb"]),
+                file(xsltFile)
+        )
+        outputs.dir outputDir
+
+        doLast {
+            file(outputDir).mkdirs()
+
+            //Find all XSDs in the src/main/resources/META-INF.schema
+            if (file(xsltFile).exists() && file(schemaBaseDir).exists()) {
+                logger.lifecycle("Transforming Schemas")
+                ant.xslt(
+                        extension: '.xsd',
+                        basedir: schemaBaseDir,
+                        includes: "**/*.xsd",
+                        style: xsltFile,
+                        destdir: "${outputDir}"
+                )
+            } else {
+                logger.lifecycle("NOT Transforming Schemas")
+                copy {
+                    from schemaBaseDir
+                    into outputDir
+                    include "**/*.xsd"
+                }
+            }
+
+            //Copy over any bindings.xjb into their appropriate directories
+            logger.lifecycle("Copying xjb's")
+            copy {
+                from schemaBaseDir
+                into outputDir
+                include "**/*.xjb"
+            }
+        }
+    }
+
+    def generatedDir = "${buildDir}/src/generated-sources"
+
+    jaxb {
+        xsdDir transformXSDs.outputDir
+        bindingsDir = transformXSDs.outputDir
+        xjc {
+            destinationDir = generatedDir
+        }
+    }
+
+    xjc.dependsOn transformXSDs
+
+    sourceSets {
+        generated {
+            java {
+                srcDirs += generatedDir
+            }
+        }
+        main {
+            java {
+                compileClasspath += generated.output
+                runtimeClasspath += generated.output
+            }
+            output.dir(sourceSets.generated.output.classesDir, builtBy: 'compileGeneratedJava')
+        }
+    }
+
+    [JavaCompile, ScalaCompile, GroovyCompile].collect { type ->
+        tasks.withType(type) {
+            dependsOn('xjc')
+        }
+    }
+
+    configurations {
+        compile.exclude group: 'commons-logging', module: 'commons-logging'
+
+        testCompile.exclude group: 'xerces', module: 'xerces'
+    }
+
+    jar {
+        manifest {
+            attributes(
+                    "Specification-Title": "Repose Components - $project.name",
+                    "Specification-Vendor": "Rackspace US, Inc.",
+                    "Specification-Version": version,
+                    "Implementation-Title": "Repose Components - $project.name",
+                    "Implementation-Version": version,
+                    "Implementation-Vendor": "Rackspace US, Inc.",
+                    "Implementation-Vendor-Id": project.group,
+                    "Built-By": System.getProperty('user.name'),
+                    "Build-Jdk": org.gradle.internal.jvm.Jvm.current(),
+                    "Created-By": "Gradle $project.gradle.gradleVersion",
+            )
+        }
+    }
+}
+
+dependencyRecommendations {
+    propertiesFile file: file('versions.properties')
+}
