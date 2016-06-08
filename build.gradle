@@ -40,7 +40,7 @@ subprojects {
         provided "javax.inject:javax.inject"
         provided "javax.servlet:javax.servlet-api"
         provided "org.openrepose:repose-core-api"
-        provided "org.openrepose:utilities"
+        provided "org.openrepose:commons-utilities"
 
         compile "org.jvnet.jaxb2_commons:jaxb2-basics-runtime"
 
