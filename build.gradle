@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.netflix.nebula:nebula-dependency-recommender:3.3.0'      // version numbers
+        classpath 'com.netflix.nebula:nebula-dependency-recommender:4.3.0'      // version numbers
         classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3' // provided
         classpath 'org.openrepose:gradle-jaxb-plugin:2.2.1'                     // jaxb
     }

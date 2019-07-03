@@ -29,11 +29,11 @@ import org.junit.runner.RunWith
 import org.mockito.{ArgumentCaptor, Matchers, Mockito}
 import org.openrepose.core.services.config.ConfigurationService
 import org.scalatest._
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.junit.JUnitRunner
+import org.scalatestplus.mockito.MockitoSugar
 import org.springframework.mock.web.{MockFilterChain, MockFilterConfig, MockHttpServletRequest, MockHttpServletResponse}
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 @RunWith(classOf[JUnitRunner])
 class HelloWorldScalaFilterScalaTest extends FunSpec with BeforeAndAfterAll with BeforeAndAfter with GivenWhenThen with org.scalatest.Matchers with MockitoSugar {
@@ -91,7 +91,7 @@ class HelloWorldScalaFilterScalaTest extends FunSpec with BeforeAndAfterAll with
 
       Then("the filter should be initialized")
       filter.isInitialized
-      val events = listAppender.getEvents.toList.map(_.getMessage.getFormattedMessage)
+      val events = listAppender.getEvents.asScala.toList.map(_.getMessage.getFormattedMessage)
       events.count(_.contains("Update   message: ")) shouldBe totalMessages
     }
   }
@@ -159,7 +159,7 @@ class HelloWorldScalaFilterScalaTest extends FunSpec with BeforeAndAfterAll with
       filter.doFilter(servletRequest, servletResponse, filterChain)
 
       Then("the configured messages should be logged.")
-      val events = listAppender.getEvents.toList.map(_.getMessage.getFormattedMessage)
+      val events = listAppender.getEvents.asScala.toList.map(_.getMessage.getFormattedMessage)
       events.count(_.contains("Update   message: ")) shouldBe totalMessages
       events.count(_.contains("Request  message: ")) shouldBe totalMessages
       events.count(_.contains("Response message: ")) shouldBe totalMessages

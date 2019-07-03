@@ -25,13 +25,13 @@ import javax.servlet._
 import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 
 import org.openrepose.filters.custom.helloworldscala.config.HelloWorldScalaConfig
-import com.typesafe.scalalogging.slf4j.LazyLogging
+import com.typesafe.scalalogging.LazyLogging
 import org.openrepose.commons.config.manager.UpdateListener
 import org.openrepose.commons.utils.servlet.http.{HttpServletRequestWrapper, HttpServletResponseWrapper, ResponseMode}
 import org.openrepose.core.filter.FilterConfigHelper
 import org.openrepose.core.services.config.ConfigurationService
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 // @Named can be omitted if class doesn't have a constructor with arguments
 @Named
@@ -79,7 +79,7 @@ class HelloWorldScalaFilter @Inject()(configurationService: ConfigurationService
       // before and after the Filter Chain is processed.
       logger.trace("Hello World Scala filter processing request...")
       Option(configuration.getMessages).flatMap {
-        messages => Option(messages.getMessage)
+        messages => Option(messages.getMessage.asScala)
       }.toList.flatten.foreach {
         message => logger.info("Request  message: " + message.getValue)
       }
@@ -89,7 +89,7 @@ class HelloWorldScalaFilter @Inject()(configurationService: ConfigurationService
 
       logger.trace("Hello World Scala filter processing response...")
       Option(configuration.getMessages).flatMap {
-        messages => Option(messages.getMessage)
+        messages => Option(messages.getMessage.asScala)
       }.toList.flatten.foreach {
         message => logger.info("Response message: " + message.getValue)
       }
@@ -101,7 +101,7 @@ class HelloWorldScalaFilter @Inject()(configurationService: ConfigurationService
   override def configurationUpdated(configurationObject: HelloWorldScalaConfig): Unit = {
     configuration = configurationObject
     Option(configuration.getMessages).flatMap {
-      messages => Option(messages.getMessage)
+      messages => Option(messages.getMessage.asScala)
     }.toList.flatten.foreach {
       message => logger.info("Update   message: " + message.getValue)
     }

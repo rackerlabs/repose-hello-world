@@ -24,15 +24,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.license>apache20</project.license>
         <project.inceptionYear>2010</project.inceptionYear>
-        <repose.version>8.0.1.0</repose.version>
-        <scala.version>2.11.7</scala.version>
-        <scala.dep.version>2.11</scala.dep.version>
+        <repose.version>9.1.0.0</repose.version>
+        <scala.version>2.12.8</scala.version>
+        <scala.dep.version>2.12</scala.dep.version>
         <groovy.version>2.4.3</groovy.version>
         <kotlin.version>1.0.0</kotlin.version>
         <gmaven.version>1.5</gmaven.version>
-        <log4j.version>2.3</log4j.version>
+        <log4j.version>2.9.0</log4j.version>
         <junit.version>4.12</junit.version>
-        <org.springframework.version>4.1.4.RELEASE</org.springframework.version>
+        <org.springframework.version>4.3.21.RELEASE</org.springframework.version>
         <mockito.version>1.9.5</mockito.version>
     </properties>
 
@@ -104,7 +104,7 @@
             <dependency>
                 <groupId>org.scalatest</groupId>
                 <artifactId>scalatest_${scala.dep.version}</artifactId>
-                <version>2.2.0</version>
+                <version>3.0.8</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
