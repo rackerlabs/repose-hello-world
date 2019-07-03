@@ -17,8 +17,8 @@ git clone git@github.com:rackerlabs/repose-hello-world.git
 ### Gradle
 ```
 cd repose-hello-world
-gradle clean
-gradle build
+./gradlew clean
+./gradlew build
 ```
 
 ### Maven
