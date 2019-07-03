@@ -50,8 +50,8 @@
         </dependency>
         <dependency>
             <groupId>com.typesafe.scala-logging</groupId>
-            <artifactId>scala-logging-slf4j_${scala.dep.version}</artifactId>
-            <version>2.1.2</version>
+            <artifactId>scala-logging_${scala.dep.version}</artifactId>
+            <version>3.9.2</version>
         </dependency>
     </dependencies>
     <build>
