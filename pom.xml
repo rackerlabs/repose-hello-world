@@ -30,7 +30,7 @@
         <groovy.version>2.4.3</groovy.version>
         <kotlin.version>1.0.0</kotlin.version>
         <gmaven.version>1.5</gmaven.version>
-        <log4j.version>2.3</log4j.version>
+        <log4j.version>2.15.0</log4j.version>
         <junit.version>4.12</junit.version>
         <org.springframework.version>4.1.4.RELEASE</org.springframework.version>
         <mockito.version>1.9.5</mockito.version>
